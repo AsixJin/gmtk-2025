@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cpcaamkfo5odk"]
+
+[ext_resource type="Texture2D" uid="uid://ous2xjs2v5hv" path="res://debug_colorsa.png" id="1_n700c"]
+
+[node name="SnakeSegment" type="Sprite2D"]
+texture = ExtResource("1_n700c")
+centered = false
+hframes = 2
+vframes = 2
+frame = 2
