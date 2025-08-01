@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://ous2xjs2v5hv" path="res://debug_colorsa.png" id="1_n700c"]
 
-[node name="SnakeSegment" type="Sprite2D"]
+[node name="SnakeSegment" type="Sprite2D" groups=["segments"]]
 texture = ExtResource("1_n700c")
 centered = false
 hframes = 2
