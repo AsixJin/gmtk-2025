@@ -1,4 +1,8 @@
-extends Node
+extends Node2D
+
+const STARTING_COLUMNS = 12
+const STARTING_ROWS = 8
+const STARTING_SPEED = 0.2
 
 @export var snake_scene : PackedScene
 
@@ -8,8 +12,8 @@ var game_started : bool = false
 
 # Grid variables
 var initial_cell = Vector2(3, 3)
-var cells_per_row = 8
-var cells_per_column = 12
+var cells_per_row = STARTING_ROWS
+var cells_per_column = STARTING_COLUMNS
 var cell_size = 32
 
 # Food variables
@@ -20,6 +24,7 @@ var regen_food : bool = true
 var old_data : Array
 var snake_data : Array
 var snake : Array
+var snake_tail
 
 # Movement variables
 var start_pos = Vector2(4, 4)
@@ -27,17 +32,30 @@ var move_direction : Vector2
 var can_move : bool
 
 func _ready() -> void:
-	create_map()
+	#create_map()
 	new_game()
 	pass
 	
 func create_map():
-	$Background.position = initial_cell * cell_size
+	$Map.clear()
+	$Map.position = initial_cell * cell_size
+	for x in range(cells_per_row):
+		var starting_tile = x + 1
+		for y in range(cells_per_column):
+			$Map.set_cell(Vector2(x, y), 0, Vector2(starting_tile % 2, 0))
+			starting_tile += 1
 	
 func new_game():
 	get_tree().paused = false
+	$Map.is_game_over = false
 	get_tree().call_group("segments", "queue_free")
 	score = 0
+	# Reset grid size
+	cells_per_column = STARTING_COLUMNS
+	cells_per_row = STARTING_ROWS
+	create_map()
+	# Reset move timer/speed
+	$MoveTimer.wait_time = STARTING_SPEED
 	# Set HUD
 	move_direction = Vector2.UP
 	can_move = true
@@ -59,6 +77,16 @@ func add_segment(pos):
 	SnakeSegment.position = calculate_position((pos * cell_size))
 	add_child(SnakeSegment)
 	snake.append(SnakeSegment)
+	# Mark the tail end
+	if snake.size() == 9 or snake.size() == 13 or snake.size() == 17:
+		#if snake_tail:
+			#snake_tail.modulate = Color.WHITE
+		snake_tail = snake[-1]
+		snake_tail.modulate = Color.RED
+	else:
+		if snake_tail:
+			snake_tail.modulate = Color.WHITE
+			snake_tail = null
 	
 func _process(delta: float) -> void:
 	move_snake()
@@ -86,8 +114,6 @@ func move_snake():
 			can_move = false
 			if not game_started:
 				start_game()
-	if Input.is_action_just_pressed("start") and !game_started:
-		new_game()
 		
 func start_game():
 	game_started = true
@@ -118,11 +144,21 @@ func check_self_eaten():
 	for i in range(1, len(snake_data)):
 		if snake_data[0] == snake_data[i]:
 			end_game()
+			# Check if snake ate its own tail
+			if snake_data[i] == snake_data[-1]:
+				print(get_encapsulation_size())
 	 
 func check_food_eaten():
 	# If snake eats the food, add a segment and move the food
 	if snake_data[0] == food_pos:
 		score += 1
+		# Inscrease the speed of the snake
+		$MoveTimer.wait_time = 0.2 - (score * 0.01)
+		# Every 5 food increase the play area
+		if score % 5 == 0:
+			cells_per_column += 1
+			cells_per_row += 1
+			create_map()
 		# Update HUD
 		add_segment(old_data[-1])
 		move_food()
@@ -139,9 +175,21 @@ func move_food():
 	
 func end_game():
 	# Show Game Over menu
+	$Map.is_game_over = true
 	$MoveTimer.stop()
 	game_started = false
 	get_tree().paused = true
 	
 func calculate_position(pos):
 	return pos + (initial_cell * cell_size)
+	
+# This should count the square inside an ouroboros
+func get_encapsulation_size() -> int:
+	var unique_positions = []
+	for pos in snake_data:
+		if pos not in unique_positions:
+			unique_positions.append(pos)
+	return unique_positions.size()
+	
+func _on_map_restart_game() -> void:
+	new_game()
