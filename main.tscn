@@ -34,6 +34,8 @@ process_mode = 3
 tile_set = SubResource("TileSet_efxa6")
 script = ExtResource("4_5vw27")
 
+[node name="CenterPoint" type="Node2D" parent="Map"]
+
 [node name="MoveTimer" type="Timer" parent="."]
 wait_time = 0.2
 
@@ -47,19 +49,95 @@ frame = 1
 [node name="PhantomCamera" type="Node2D" parent="."]
 
 [node name="PhantomCamera2D" type="Node2D" parent="PhantomCamera" node_paths=PackedStringArray("follow_target")]
+top_level = true
+position = Vector2(192, 0)
 script = ExtResource("6_5vw27")
-follow_target = NodePath("")
+follow_mode = 2
+follow_target = NodePath("../../Map/CenterPoint")
 tween_resource = SubResource("Resource_efxa6")
+tween_on_load = false
+follow_offset = Vector2(192, 0)
 metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
 
 [node name="Camera2D" type="Camera2D" parent="."]
-enabled = false
+position = Vector2(192, 0)
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D"]
 process_priority = 300
 process_physics_priority = 300
 script = ExtResource("8_4c57u")
 metadata/_custom_type_script = "uid://bd046eokvcnu2"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
+custom_minimum_size = Vector2(387, 0)
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/PanelContainer"]
+custom_minimum_size = Vector2(387, 0)
+layout_mode = 2
+color = Color(0.18359, 0.18359, 0.18359, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer"]
+custom_minimum_size = Vector2(387, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Cycles"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "1,000,000,000"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "(1,000 Cycles per Second)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ColorRect3" type="ColorRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ColorRect4" type="ColorRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ColorRect5" type="ColorRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
 
 [connection signal="restart_game" from="Map" to="." method="_on_map_restart_game"]
 [connection signal="timeout" from="MoveTimer" to="." method="_on_move_timer_timeout"]

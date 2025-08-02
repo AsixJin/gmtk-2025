@@ -1,7 +1,7 @@
 extends Node2D
 
-const STARTING_COLUMNS = 12
-const STARTING_ROWS = 8
+const STARTING_COLUMNS = 10
+const STARTING_ROWS = 10
 const STARTING_SPEED = 0.2
 
 @export var snake_scene : PackedScene
@@ -11,7 +11,7 @@ var score : int
 var game_started : bool = false
 
 # Grid variables
-var initial_cell = Vector2(3, 3)
+var initial_cell = Vector2(1, 1)
 var cells_per_row = STARTING_ROWS
 var cells_per_column = STARTING_COLUMNS
 var cell_size = 32
@@ -24,6 +24,7 @@ var regen_food : bool = true
 var old_data : Array
 var snake_data : Array
 var snake : Array
+var next_tail_index = 9
 var snake_tail
 
 # Movement variables
@@ -44,11 +45,13 @@ func create_map():
 		for y in range(cells_per_column):
 			$Map.set_cell(Vector2(x, y), 0, Vector2(starting_tile % 2, 0))
 			starting_tile += 1
+	$Map.recenter(cells_per_column, cells_per_row, cell_size)
 	
 func new_game():
 	get_tree().paused = false
 	$Map.is_game_over = false
 	get_tree().call_group("segments", "queue_free")
+	next_tail_index = 9
 	score = 0
 	# Reset grid size
 	cells_per_column = STARTING_COLUMNS
@@ -78,11 +81,12 @@ func add_segment(pos):
 	add_child(SnakeSegment)
 	snake.append(SnakeSegment)
 	# Mark the tail end
-	if snake.size() == 9 or snake.size() == 13 or snake.size() == 17:
+	if snake.size() == next_tail_index:
 		#if snake_tail:
 			#snake_tail.modulate = Color.WHITE
 		snake_tail = snake[-1]
 		snake_tail.modulate = Color.RED
+		next_tail_index += 4
 	else:
 		if snake_tail:
 			snake_tail.modulate = Color.WHITE
@@ -153,9 +157,9 @@ func check_food_eaten():
 	if snake_data[0] == food_pos:
 		score += 1
 		# Inscrease the speed of the snake
-		$MoveTimer.wait_time = 0.2 - (score * 0.01)
+		$MoveTimer.wait_time = 0.2 - (score * 0.005)
 		# Every 5 food increase the play area
-		if score % 5 == 0:
+		if score % 3 == 0 and cells_per_column < 20:
 			cells_per_column += 1
 			cells_per_row += 1
 			create_map()
