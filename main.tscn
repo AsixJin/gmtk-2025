@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dmwhqdv0eqjdq"]
+[gd_scene load_steps=16 format=3 uid="uid://dmwhqdv0eqjdq"]
 
 [ext_resource type="Script" uid="uid://clai6lnmvbn5l" path="res://main.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://cpcaamkfo5odk" path="res://snake_segment.tscn" id="2_h2yge"]
@@ -8,6 +8,8 @@
 [ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="6_5vw27"]
 [ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="7_kek77"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="8_4c57u"]
+[ext_resource type="Script" uid="uid://dr0rxhh60jo5v" path="res://cycle_button.gd" id="9_4c57u"]
+[ext_resource type="Texture2D" uid="uid://d0vbsia1ch4sw" path="res://images/hamster_wheel.png" id="9_kek77"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4c57u"]
 texture = ExtResource("5_kek77")
@@ -25,7 +27,14 @@ duration = 1.0
 transition = 0
 ease = 2
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4c57u"]
+bg_color = Color(0, 0, 0, 0.580392)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_efxa6"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
 [node name="Main" type="Node2D"]
+process_mode = 3
 script = ExtResource("1_ig7tw")
 snake_scene = ExtResource("2_h2yge")
 
@@ -36,10 +45,13 @@ script = ExtResource("4_5vw27")
 
 [node name="CenterPoint" type="Node2D" parent="Map"]
 
-[node name="MoveTimer" type="Timer" parent="."]
+[node name="GameScene" type="Node2D" parent="."]
+process_mode = 1
+
+[node name="MoveTimer" type="Timer" parent="GameScene"]
 wait_time = 0.2
 
-[node name="Food" type="Sprite2D" parent="."]
+[node name="Food" type="Sprite2D" parent="GameScene"]
 texture = ExtResource("4_1bvp3")
 centered = false
 hframes = 2
@@ -69,6 +81,7 @@ script = ExtResource("8_4c57u")
 metadata/_custom_type_script = "uid://bd046eokvcnu2"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+process_mode = 3
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
 custom_minimum_size = Vector2(387, 0)
@@ -101,43 +114,332 @@ text = "Cycles"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="CycleCountLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "1,000,000,000"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label3" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="CycleSecondLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "(1,000 Cycles per Second)"
+text = "1,000 CPS"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="ButtonContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/separation = 16
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="HamsterButton" type="PanelContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer"]
 layout_mode = 2
-size_flags_vertical = 3
+script = ExtResource("9_4c57u")
 
-[node name="ColorRect2" type="ColorRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton"]
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
+color = Color(0.262932, 0.262932, 0.262932, 1)
 
-[node name="ColorRect3" type="ColorRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton"]
 layout_mode = 2
-size_flags_vertical = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
 
-[node name="ColorRect4" type="ColorRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="TypeButton1" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton/MarginContainer"]
 layout_mode = 2
-size_flags_vertical = 3
 
-[node name="ColorRect5" type="ColorRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton/MarginContainer/TypeButton1"]
+layout_mode = 2
+texture = ExtResource("9_kek77")
+stretch_mode = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton/MarginContainer/TypeButton1"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton/MarginContainer/TypeButton1/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NameLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_font_sizes/font_size = 16
+text = "Hamster Wheel"
+vertical_alignment = 2
+
+[node name="PriceLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "10 O-Loops"
+vertical_alignment = 1
+
+[node name="OwnedLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton/MarginContainer/TypeButton1"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "x0000"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton"]
+layout_mode = 2
+theme_override_styles/disabled = SubResource("StyleBoxFlat_4c57u")
+theme_override_styles/normal = SubResource("StyleBoxFlat_efxa6")
+
+[node name="FansButton" type="PanelContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer"]
+layout_mode = 2
+script = ExtResource("9_4c57u")
+type = 1
+type_price = 1000
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0.262932, 0.262932, 0.262932, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="TypeButton1" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton/MarginContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton/MarginContainer/TypeButton1"]
+layout_mode = 2
+texture = ExtResource("9_kek77")
+stretch_mode = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton/MarginContainer/TypeButton1"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton/MarginContainer/TypeButton1/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NameLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 16
+text = "Hamster Wheel"
+vertical_alignment = 2
+
+[node name="PriceLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "10 O-Loops"
+vertical_alignment = 1
+
+[node name="OwnedLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton/MarginContainer/TypeButton1"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "x0000"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton"]
+layout_mode = 2
+theme_override_styles/disabled = SubResource("StyleBoxFlat_4c57u")
+theme_override_styles/normal = SubResource("StyleBoxFlat_efxa6")
+
+[node name="WhileButton" type="PanelContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer"]
+layout_mode = 2
+script = ExtResource("9_4c57u")
+type = 2
+type_price = 10000
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0.262932, 0.262932, 0.262932, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="TypeButton1" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton/MarginContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton/MarginContainer/TypeButton1"]
+layout_mode = 2
+texture = ExtResource("9_kek77")
+stretch_mode = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton/MarginContainer/TypeButton1"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton/MarginContainer/TypeButton1/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NameLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 16
+text = "Hamster Wheel"
+vertical_alignment = 2
+
+[node name="PriceLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "10 O-Loops"
+vertical_alignment = 1
+
+[node name="OwnedLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton/MarginContainer/TypeButton1"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "x0000"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton"]
+layout_mode = 2
+theme_override_styles/disabled = SubResource("StyleBoxFlat_4c57u")
+theme_override_styles/normal = SubResource("StyleBoxFlat_efxa6")
+
+[node name="PlanetsButton" type="PanelContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer"]
+layout_mode = 2
+script = ExtResource("9_4c57u")
+type = 3
+type_price = 100000
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0.262932, 0.262932, 0.262932, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="TypeButton1" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton/MarginContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton/MarginContainer/TypeButton1"]
+layout_mode = 2
+texture = ExtResource("9_kek77")
+stretch_mode = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton/MarginContainer/TypeButton1"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton/MarginContainer/TypeButton1/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NameLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 16
+text = "Hamster Wheel"
+vertical_alignment = 2
+
+[node name="PriceLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "10 O-Loops"
+vertical_alignment = 1
+
+[node name="OwnedLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton/MarginContainer/TypeButton1"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "x0000"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton"]
+layout_mode = 2
+theme_override_styles/disabled = SubResource("StyleBoxFlat_4c57u")
+theme_override_styles/normal = SubResource("StyleBoxFlat_efxa6")
+
+[node name="BlackHoleButton" type="PanelContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer"]
+layout_mode = 2
+script = ExtResource("9_4c57u")
+type = 4
+type_price = 1000000
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0.262932, 0.262932, 0.262932, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="TypeButton1" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton/MarginContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton/MarginContainer/TypeButton1"]
+layout_mode = 2
+texture = ExtResource("9_kek77")
+stretch_mode = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton/MarginContainer/TypeButton1"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton/MarginContainer/TypeButton1/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NameLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 16
+text = "Hamster Wheel"
+vertical_alignment = 2
+
+[node name="PriceLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "10 O-Loops"
+vertical_alignment = 1
+
+[node name="OwnedLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton/MarginContainer/TypeButton1"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "x0000"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton"]
+layout_mode = 2
+theme_override_styles/disabled = SubResource("StyleBoxFlat_4c57u")
+theme_override_styles/normal = SubResource("StyleBoxFlat_efxa6")
 
 [connection signal="restart_game" from="Map" to="." method="_on_map_restart_game"]
-[connection signal="timeout" from="MoveTimer" to="." method="_on_move_timer_timeout"]
+[connection signal="timeout" from="GameScene/MoveTimer" to="." method="_on_move_timer_timeout"]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton/Button" to="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton" method="_on_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton/Button" to="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton" method="_on_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton/Button" to="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton" method="_on_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton/Button" to="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton" method="_on_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton/Button" to="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton" method="_on_button_pressed"]

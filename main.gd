@@ -4,6 +4,9 @@ const STARTING_COLUMNS = 10
 const STARTING_ROWS = 10
 const STARTING_SPEED = 0.2
 
+const CYCLE_PRICES = [100, 1000, 10000, 100000, 1000000]
+const CYCLE_GENERATED = [1, 10, 100, 1000]
+
 @export var snake_scene : PackedScene
 
 # Game variables
@@ -32,10 +35,36 @@ var start_pos = Vector2(4, 4)
 var move_direction : Vector2
 var can_move : bool
 
+# "Buildings" variables
+var tick = 1
+var cycle_bank = 0 :
+	set(value):
+		cycle_bank = value
+		$CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/CycleCountLabel.text = str(cycle_bank)
+
+var cycles_per_second = 0 :
+	set(value):
+		cycles_per_second = value
+		$CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/CycleSecondLabel.text = str(cycles_per_second, " CPS")
+		
+var cycle_types_owned = [0, 0, 0, 0]
+
 func _ready() -> void:
-	#create_map()
+	for button in $CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer.get_children():
+		button.type_bought.connect(purchae_cycle_type)
+		button.price_label.text = str(button.type_price, " Cycles")
+		var type_name = "Hamster Wheel"
+		match button.type:
+			1:
+				type_name = "Fan"
+			2:
+				type_name = "While Loop"
+			3:
+				type_name = "Planet"
+			4:
+				type_name = "Black Hole"
+		button.name_label.text = type_name
 	new_game()
-	pass
 	
 func create_map():
 	$Map.clear()
@@ -58,7 +87,7 @@ func new_game():
 	cells_per_row = STARTING_ROWS
 	create_map()
 	# Reset move timer/speed
-	$MoveTimer.wait_time = STARTING_SPEED
+	$GameScene/MoveTimer.wait_time = STARTING_SPEED
 	# Set HUD
 	move_direction = Vector2.UP
 	can_move = true
@@ -93,6 +122,10 @@ func add_segment(pos):
 			snake_tail = null
 	
 func _process(delta: float) -> void:
+	tick -= delta
+	if tick <= 0:
+		cycle_bank += cycles_per_second
+		tick = 1
 	move_snake()
 	
 func move_snake():
@@ -121,7 +154,7 @@ func move_snake():
 		
 func start_game():
 	game_started = true
-	$MoveTimer.start()
+	$GameScene/MoveTimer.start()
 	
 func _on_move_timer_timeout() -> void:
 	# Allow snake movement
@@ -150,14 +183,16 @@ func check_self_eaten():
 			end_game()
 			# Check if snake ate its own tail
 			if snake_data[i] == snake_data[-1]:
-				print(get_encapsulation_size())
+				var cycles_collected = get_encapsulation_size()
+				cycle_bank += cycles_collected
+				print(cycles_collected)
 	 
 func check_food_eaten():
 	# If snake eats the food, add a segment and move the food
 	if snake_data[0] == food_pos:
 		score += 1
 		# Inscrease the speed of the snake
-		$MoveTimer.wait_time = 0.2 - (score * 0.005)
+		$GameScene/MoveTimer.wait_time = 0.2 - (score * 0.005)
 		# Every 5 food increase the play area
 		if score % 3 == 0 and cells_per_column < 20:
 			cells_per_column += 1
@@ -174,13 +209,13 @@ func move_food():
 		for i in snake_data:
 			if food_pos == i:
 				regen_food = true
-	$Food.position = calculate_position((food_pos * cell_size))
+	$GameScene/Food.position = calculate_position((food_pos * cell_size))
 	regen_food = true
 	
 func end_game():
 	# Show Game Over menu
 	$Map.is_game_over = true
-	$MoveTimer.stop()
+	$GameScene/MoveTimer.stop()
 	game_started = false
 	get_tree().paused = true
 	
@@ -194,6 +229,25 @@ func get_encapsulation_size() -> int:
 		if pos not in unique_positions:
 			unique_positions.append(pos)
 	return unique_positions.size()
+	
+func purchae_cycle_type(type_button : CycleTypeButton):
+	var price = type_button.type_price
+	if cycle_bank >= price:
+		cycle_bank -= price
+		var cycle_type = type_button.type
+		cycle_types_owned[cycle_type] += 1
+		type_button.type_owned = cycle_types_owned[cycle_type]
+		# Update Price
+		type_button.type_price = ceili(type_button.type_price * 1.15)
+		calculate_cps()
+		print("Bought Cycle")
+	else:
+		print("Not enough loops")
+	
+func calculate_cps():
+	cycles_per_second = 0
+	for i in range(4):
+		cycles_per_second += CYCLE_GENERATED[i] * cycle_types_owned[i]
 	
 func _on_map_restart_game() -> void:
 	new_game()
