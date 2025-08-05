@@ -1,5 +1,6 @@
-[gd_scene load_steps=16 format=3 uid="uid://dmwhqdv0eqjdq"]
+[gd_scene load_steps=38 format=3 uid="uid://dmwhqdv0eqjdq"]
 
+[ext_resource type="Shader" uid="uid://c53v6y3v5y0yc" path="res://main.gdshader" id="1_efxa6"]
 [ext_resource type="Script" uid="uid://clai6lnmvbn5l" path="res://main.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://cpcaamkfo5odk" path="res://snake_segment.tscn" id="2_h2yge"]
 [ext_resource type="Texture2D" uid="uid://ous2xjs2v5hv" path="res://debug_colorsa.png" id="4_1bvp3"]
@@ -9,7 +10,18 @@
 [ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="7_kek77"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="8_4c57u"]
 [ext_resource type="Script" uid="uid://dr0rxhh60jo5v" path="res://cycle_button.gd" id="9_4c57u"]
+[ext_resource type="Shader" uid="uid://cc761cle8lx5d" path="res://main_bg.gdshader" id="9_dg77c"]
 [ext_resource type="Texture2D" uid="uid://d0vbsia1ch4sw" path="res://images/hamster_wheel.png" id="9_kek77"]
+[ext_resource type="Texture2D" uid="uid://duj2nr5s3bbsg" path="res://images/fan.png" id="12_2cqfq"]
+[ext_resource type="Texture2D" uid="uid://jculfp503fdi" path="res://images/while_loop.png" id="13_yaehf"]
+[ext_resource type="Texture2D" uid="uid://umshyrn5ds17" path="res://images/planet.png" id="14_074og"]
+[ext_resource type="Texture2D" uid="uid://cbtbqn41cecf3" path="res://images/black_hole.png" id="15_cegan"]
+[ext_resource type="AudioStream" uid="uid://c38aw6gagfvh2" path="res://audio/black_hole.wav" id="17_getpj"]
+[ext_resource type="AudioStream" uid="uid://msqy3616vk72" path="res://audio/eat.wav" id="17_yaehf"]
+[ext_resource type="AudioStream" uid="uid://xtobbhhsw81j" path="res://audio/purchase.wav" id="18_074og"]
+[ext_resource type="AudioStream" uid="uid://cjkth246hwcjw" path="res://audio/growth.wav" id="18_cegan"]
+[ext_resource type="AudioStream" uid="uid://6m0wmj7sgnky" path="res://audio/game_over.wav" id="20_82xsv"]
+[ext_resource type="AudioStream" uid="uid://bhsauplinh3wv" path="res://audio/invalid_purchase.wav" id="22_ryguw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4c57u"]
 texture = ExtResource("5_kek77")
@@ -27,11 +39,257 @@ duration = 1.0
 transition = 0
 ease = 2
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ycdy4"]
+shader = ExtResource("9_dg77c")
+shader_parameter/polar_coordinates = false
+shader_parameter/polar_center = Vector2(0.5, 0.5)
+shader_parameter/polar_zoom = 1.0
+shader_parameter/polar_repeat = 3.0
+shader_parameter/spin_rotation = 0.0
+shader_parameter/spin_speed = 5.0
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/colour_1 = Color(0.125613, 0.0056648, 0.267255, 1)
+shader_parameter/colour_2 = Color(0.644114, 0.466697, 0.0764287, 1)
+shader_parameter/colour_3 = Color(0.164706, 0.109804, 0.592157, 1)
+shader_parameter/contrast = 2.0
+shader_parameter/spin_amount = 0.6
+shader_parameter/pixel_filter = 700.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ryguw"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4c57u"]
 bg_color = Color(0, 0, 0, 0.580392)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_efxa6"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d13ii"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1u8w0"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0odxb"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lswn8"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="Animation" id="Animation_dg77c"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/time")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/strength")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material:shader_parameter/spin_speed")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:material:shader_parameter/spin_strength")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:material:shader_parameter/radius")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.3]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../PanelContainer:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../BlackHoleSFX:playing")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath(".:material:shader_parameter/active")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_efxa6"]
+resource_name = "activate"
+length = 16.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/time")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2, 6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/strength")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5, 6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material:shader_parameter/spin_speed")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.5, 6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 2.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:material:shader_parameter/spin_strength")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.5, 6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 2.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:material:shader_parameter/radius")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(3.5, 15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.3, 0.6]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../PanelContainer:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(10, 15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../BlackHoleSFX:playing")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath(".:material:shader_parameter/active")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ycdy4"]
+_data = {
+&"RESET": SubResource("Animation_dg77c"),
+&"activate": SubResource("Animation_efxa6")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_efxa6"]
+shader = ExtResource("1_efxa6")
+shader_parameter/active = true
+shader_parameter/black_hole_center = Vector2(0.5, 0.5)
+shader_parameter/radius = 0.3
+shader_parameter/strength = 0.0
+shader_parameter/time = 0.0
+shader_parameter/spin_speed = 0.0
+shader_parameter/spin_strength = 0.0
 
 [node name="Main" type="Node2D"]
 process_mode = 3
@@ -44,6 +302,8 @@ tile_set = SubResource("TileSet_efxa6")
 script = ExtResource("4_5vw27")
 
 [node name="CenterPoint" type="Node2D" parent="Map"]
+
+[node name="Sprite2D" type="Sprite2D" parent="Map"]
 
 [node name="GameScene" type="Node2D" parent="."]
 process_mode = 1
@@ -69,10 +329,12 @@ follow_target = NodePath("../../Map/CenterPoint")
 tween_resource = SubResource("Resource_efxa6")
 tween_on_load = false
 follow_offset = Vector2(192, 0)
+draw_limits = true
 metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(192, 0)
+editor_draw_limits = true
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D"]
 process_priority = 300
@@ -80,366 +342,449 @@ process_physics_priority = 300
 script = ExtResource("8_4c57u")
 metadata/_custom_type_script = "uid://bd046eokvcnu2"
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="BackgroundLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="BackgroundLayer"]
+material = SubResource("ShaderMaterial_ycdy4")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -369.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UILayer" type="CanvasLayer" parent="."]
 process_mode = 3
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
+[node name="PanelContainer" type="PanelContainer" parent="UILayer"]
 custom_minimum_size = Vector2(387, 0)
 anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -387.0
 grow_horizontal = 0
 grow_vertical = 2
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/PanelContainer"]
+[node name="ColorRect" type="ColorRect" parent="UILayer/PanelContainer"]
 custom_minimum_size = Vector2(387, 0)
 layout_mode = 2
 color = Color(0.18359, 0.18359, 0.18359, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="UILayer/PanelContainer"]
 custom_minimum_size = Vector2(387, 0)
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UILayer/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="CycleCountLabel" type="Label" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "Cycles"
+text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CycleCountLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "1,000,000,000"
+text = "Cycles Collected"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CycleSecondLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="CycleSecondLabel" type="Label" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "1,000 CPS"
+text = "0 CPS"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ButtonContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="ButtonContainer" type="VBoxContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 16
 
-[node name="HamsterButton" type="PanelContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer"]
+[node name="HamsterButton" type="PanelContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer"]
 layout_mode = 2
 script = ExtResource("9_4c57u")
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton"]
+[node name="ColorRect" type="ColorRect" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(0.262932, 0.262932, 0.262932, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton"]
+[node name="MarginContainer" type="MarginContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="TypeButton1" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton/MarginContainer"]
+[node name="TypeButton1" type="HBoxContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton/MarginContainer"]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton/MarginContainer/TypeButton1"]
+[node name="TextureRect" type="TextureRect" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton/MarginContainer/TypeButton1"]
 layout_mode = 2
 texture = ExtResource("9_kek77")
 stretch_mode = 5
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton/MarginContainer/TypeButton1"]
+[node name="MarginContainer" type="MarginContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton/MarginContainer/TypeButton1"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton/MarginContainer/TypeButton1/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton/MarginContainer/TypeButton1/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="NameLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
+[node name="NameLabel" type="Label" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 16
 text = "Hamster Wheel"
 vertical_alignment = 2
 
-[node name="PriceLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
+[node name="PriceLabel" type="Label" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "10 O-Loops"
 vertical_alignment = 1
 
-[node name="OwnedLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton/MarginContainer/TypeButton1"]
+[node name="OwnedLabel" type="Label" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton/MarginContainer/TypeButton1"]
 layout_mode = 2
 size_flags_vertical = 1
 text = "x0000"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton"]
+[node name="Button" type="Button" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton"]
 layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxFlat_ryguw")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_4c57u")
 theme_override_styles/normal = SubResource("StyleBoxFlat_efxa6")
 
-[node name="FansButton" type="PanelContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer"]
+[node name="FansButton" type="PanelContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer"]
 layout_mode = 2
 script = ExtResource("9_4c57u")
 type = 1
 type_price = 1000
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton"]
+[node name="ColorRect" type="ColorRect" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(0.262932, 0.262932, 0.262932, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton"]
+[node name="MarginContainer" type="MarginContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="TypeButton1" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton/MarginContainer"]
+[node name="TypeButton1" type="HBoxContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton/MarginContainer"]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton/MarginContainer/TypeButton1"]
+[node name="TextureRect" type="TextureRect" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton/MarginContainer/TypeButton1"]
 layout_mode = 2
-texture = ExtResource("9_kek77")
+texture = ExtResource("12_2cqfq")
 stretch_mode = 5
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton/MarginContainer/TypeButton1"]
+[node name="MarginContainer" type="MarginContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton/MarginContainer/TypeButton1"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton/MarginContainer/TypeButton1/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton/MarginContainer/TypeButton1/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="NameLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
+[node name="NameLabel" type="Label" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 16
 text = "Hamster Wheel"
 vertical_alignment = 2
 
-[node name="PriceLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
+[node name="PriceLabel" type="Label" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "10 O-Loops"
 vertical_alignment = 1
 
-[node name="OwnedLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton/MarginContainer/TypeButton1"]
+[node name="OwnedLabel" type="Label" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton/MarginContainer/TypeButton1"]
 layout_mode = 2
 size_flags_vertical = 1
 text = "x0000"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton"]
+[node name="Button" type="Button" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton"]
 layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxFlat_d13ii")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_4c57u")
 theme_override_styles/normal = SubResource("StyleBoxFlat_efxa6")
 
-[node name="WhileButton" type="PanelContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer"]
+[node name="WhileButton" type="PanelContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer"]
 layout_mode = 2
 script = ExtResource("9_4c57u")
 type = 2
 type_price = 10000
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton"]
+[node name="ColorRect" type="ColorRect" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(0.262932, 0.262932, 0.262932, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton"]
+[node name="MarginContainer" type="MarginContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="TypeButton1" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton/MarginContainer"]
+[node name="TypeButton1" type="HBoxContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton/MarginContainer"]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton/MarginContainer/TypeButton1"]
+[node name="TextureRect" type="TextureRect" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton/MarginContainer/TypeButton1"]
 layout_mode = 2
-texture = ExtResource("9_kek77")
+texture = ExtResource("13_yaehf")
 stretch_mode = 5
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton/MarginContainer/TypeButton1"]
+[node name="MarginContainer" type="MarginContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton/MarginContainer/TypeButton1"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton/MarginContainer/TypeButton1/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton/MarginContainer/TypeButton1/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="NameLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
+[node name="NameLabel" type="Label" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 16
 text = "Hamster Wheel"
 vertical_alignment = 2
 
-[node name="PriceLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
+[node name="PriceLabel" type="Label" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "10 O-Loops"
 vertical_alignment = 1
 
-[node name="OwnedLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton/MarginContainer/TypeButton1"]
+[node name="OwnedLabel" type="Label" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton/MarginContainer/TypeButton1"]
 layout_mode = 2
 size_flags_vertical = 1
 text = "x0000"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton"]
+[node name="Button" type="Button" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton"]
 layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxFlat_1u8w0")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_4c57u")
 theme_override_styles/normal = SubResource("StyleBoxFlat_efxa6")
 
-[node name="PlanetsButton" type="PanelContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer"]
+[node name="PlanetsButton" type="PanelContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer"]
 layout_mode = 2
 script = ExtResource("9_4c57u")
 type = 3
 type_price = 100000
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton"]
+[node name="ColorRect" type="ColorRect" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(0.262932, 0.262932, 0.262932, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton"]
+[node name="MarginContainer" type="MarginContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="TypeButton1" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton/MarginContainer"]
+[node name="TypeButton1" type="HBoxContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton/MarginContainer"]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton/MarginContainer/TypeButton1"]
+[node name="TextureRect" type="TextureRect" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton/MarginContainer/TypeButton1"]
 layout_mode = 2
-texture = ExtResource("9_kek77")
+texture = ExtResource("14_074og")
 stretch_mode = 5
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton/MarginContainer/TypeButton1"]
+[node name="MarginContainer" type="MarginContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton/MarginContainer/TypeButton1"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton/MarginContainer/TypeButton1/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton/MarginContainer/TypeButton1/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="NameLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
+[node name="NameLabel" type="Label" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 16
 text = "Hamster Wheel"
 vertical_alignment = 2
 
-[node name="PriceLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
+[node name="PriceLabel" type="Label" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "10 O-Loops"
 vertical_alignment = 1
 
-[node name="OwnedLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton/MarginContainer/TypeButton1"]
+[node name="OwnedLabel" type="Label" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton/MarginContainer/TypeButton1"]
 layout_mode = 2
 size_flags_vertical = 1
 text = "x0000"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton"]
+[node name="Button" type="Button" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton"]
 layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxFlat_0odxb")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_4c57u")
 theme_override_styles/normal = SubResource("StyleBoxFlat_efxa6")
 
-[node name="BlackHoleButton" type="PanelContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer"]
+[node name="BlackHoleButton" type="PanelContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer"]
 layout_mode = 2
 script = ExtResource("9_4c57u")
 type = 4
 type_price = 1000000
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton"]
+[node name="ColorRect" type="ColorRect" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(0.262932, 0.262932, 0.262932, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton"]
+[node name="MarginContainer" type="MarginContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="TypeButton1" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton/MarginContainer"]
+[node name="TypeButton1" type="HBoxContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton/MarginContainer"]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton/MarginContainer/TypeButton1"]
+[node name="TextureRect" type="TextureRect" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton/MarginContainer/TypeButton1"]
 layout_mode = 2
-texture = ExtResource("9_kek77")
+texture = ExtResource("15_cegan")
 stretch_mode = 5
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton/MarginContainer/TypeButton1"]
+[node name="MarginContainer" type="MarginContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton/MarginContainer/TypeButton1"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton/MarginContainer/TypeButton1/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton/MarginContainer/TypeButton1/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="NameLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
+[node name="NameLabel" type="Label" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 16
 text = "Hamster Wheel"
 vertical_alignment = 2
 
-[node name="PriceLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
+[node name="PriceLabel" type="Label" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton/MarginContainer/TypeButton1/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "10 O-Loops"
 vertical_alignment = 1
 
-[node name="OwnedLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton/MarginContainer/TypeButton1"]
+[node name="OwnedLabel" type="Label" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton/MarginContainer/TypeButton1"]
 layout_mode = 2
 size_flags_vertical = 1
 text = "x0000"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton"]
+[node name="Button" type="Button" parent="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton"]
 layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxFlat_lswn8")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_4c57u")
 theme_override_styles/normal = SubResource("StyleBoxFlat_efxa6")
 
+[node name="BlackHoleLayer" type="CanvasLayer" parent="."]
+
+[node name="Anim" type="AnimationPlayer" parent="BlackHoleLayer"]
+root_node = NodePath("../BlackHole")
+libraries = {
+&"": SubResource("AnimationLibrary_ycdy4")
+}
+
+[node name="BlackHole" type="ColorRect" parent="BlackHoleLayer"]
+material = SubResource("ShaderMaterial_efxa6")
+custom_minimum_size = Vector2(1100, 800)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -617.0
+offset_top = -369.0
+offset_right = 543.0
+offset_bottom = 431.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="BlackHoleLayer"]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="BlackHoleLayer/PanelContainer"]
+custom_minimum_size = Vector2(1152, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "In your attempt to keep cycles and loops in order, you've created the greatest loop of all...
+
+The Cycle is Eternal...
+
+Now we are all in a Loop."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="BlackHoleSFX" type="AudioStreamPlayer" parent="BlackHoleLayer"]
+stream = ExtResource("17_getpj")
+volume_db = -5.0
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="EatSFX" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("17_yaehf")
+
+[node name="GrowthSFX" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("18_cegan")
+
+[node name="PurchaseSFX" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("18_074og")
+
+[node name="GameOverSFX" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("20_82xsv")
+
+[node name="InvalidSFX" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("22_ryguw")
+
 [connection signal="restart_game" from="Map" to="." method="_on_map_restart_game"]
 [connection signal="timeout" from="GameScene/MoveTimer" to="." method="_on_move_timer_timeout"]
-[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton/Button" to="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton" method="_on_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton/Button" to="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton" method="_on_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton/Button" to="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton" method="_on_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton/Button" to="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton" method="_on_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton/Button" to="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton" method="_on_button_pressed"]
+[connection signal="pressed" from="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton/Button" to="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/HamsterButton" method="_on_button_pressed"]
+[connection signal="pressed" from="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton/Button" to="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/FansButton" method="_on_button_pressed"]
+[connection signal="pressed" from="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton/Button" to="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/WhileButton" method="_on_button_pressed"]
+[connection signal="pressed" from="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton/Button" to="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/PlanetsButton" method="_on_button_pressed"]
+[connection signal="pressed" from="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton/Button" to="UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer/BlackHoleButton" method="_on_button_pressed"]

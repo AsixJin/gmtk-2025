@@ -5,7 +5,7 @@ const STARTING_ROWS = 10
 const STARTING_SPEED = 0.2
 
 const CYCLE_PRICES = [100, 1000, 10000, 100000, 1000000]
-const CYCLE_GENERATED = [1, 10, 100, 1000]
+const CYCLE_GENERATED = [3, 25, 250, 2500]
 
 @export var snake_scene : PackedScene
 
@@ -18,10 +18,12 @@ var initial_cell = Vector2(1, 1)
 var cells_per_row = STARTING_ROWS
 var cells_per_column = STARTING_COLUMNS
 var cell_size = 32
+var map_level = 0
 
 # Food variables
 var food_pos  : Vector2
 var regen_food : bool = true
+var food_eaten = 0
 
 # Snake variables
 var old_data : Array
@@ -29,6 +31,7 @@ var snake_data : Array
 var snake : Array
 var next_tail_index = 9
 var snake_tail
+var ouroboros_chain = 0
 
 # Movement variables
 var start_pos = Vector2(4, 4)
@@ -40,17 +43,18 @@ var tick = 1
 var cycle_bank = 0 :
 	set(value):
 		cycle_bank = value
-		$CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/CycleCountLabel.text = str(cycle_bank)
+		$UILayer/PanelContainer/MarginContainer/VBoxContainer/CycleCountLabel.text = str(cycle_bank)
 
 var cycles_per_second = 0 :
 	set(value):
 		cycles_per_second = value
-		$CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/CycleSecondLabel.text = str(cycles_per_second, " CPS")
+		$UILayer/PanelContainer/MarginContainer/VBoxContainer/CycleSecondLabel.text = str(cycles_per_second, " CPS")
 		
-var cycle_types_owned = [0, 0, 0, 0]
+var cycle_types_owned = [0, 0, 0, 0, 0]
+var total_cycle_types_owned = 0
 
 func _ready() -> void:
-	for button in $CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer.get_children():
+	for button in $UILayer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer.get_children():
 		button.type_bought.connect(purchae_cycle_type)
 		button.price_label.text = str(button.type_price, " Cycles")
 		var type_name = "Hamster Wheel"
@@ -82,6 +86,9 @@ func new_game():
 	get_tree().call_group("segments", "queue_free")
 	next_tail_index = 9
 	score = 0
+	ouroboros_chain = 0
+	map_level = 0
+	food_eaten = 0
 	# Reset grid size
 	cells_per_column = STARTING_COLUMNS
 	cells_per_row = STARTING_ROWS
@@ -99,7 +106,7 @@ func generate_snake():
 	snake_data.clear()
 	snake.clear()
 	# Starting with the start_pos, create tail segments vertically down
-	for i in range(3):
+	for i in range(5):
 		add_segment(start_pos + Vector2(0, i))
 		
 func add_segment(pos):
@@ -107,7 +114,7 @@ func add_segment(pos):
 	var SnakeSegment = snake_scene.instantiate()
 	# SnakeSegment.position = (pos * cell_size)
 	SnakeSegment.position = calculate_position((pos * cell_size))
-	add_child(SnakeSegment)
+	$GameScene.add_child(SnakeSegment)
 	snake.append(SnakeSegment)
 	# Mark the tail end
 	if snake.size() == next_tail_index:
@@ -116,10 +123,18 @@ func add_segment(pos):
 		snake_tail = snake[-1]
 		snake_tail.modulate = Color.RED
 		next_tail_index += 4
+		ouroboros_chain += 1
 	else:
 		if snake_tail:
 			snake_tail.modulate = Color.WHITE
 			snake_tail = null
+			if cells_per_column < 20:
+				$Audio/EatSFX.stop()
+				$Audio/GrowthSFX.play()
+				cells_per_column += 1
+				cells_per_row += 1
+				map_level += 1
+				create_map()
 	
 func _process(delta: float) -> void:
 	tick -= delta
@@ -180,25 +195,24 @@ func check_out_of_bounds():
 func check_self_eaten():
 	for i in range(1, len(snake_data)):
 		if snake_data[0] == snake_data[i]:
-			end_game()
-			# Check if snake ate its own tail
 			if snake_data[i] == snake_data[-1]:
-				var cycles_collected = get_encapsulation_size()
-				cycle_bank += cycles_collected
-				print(cycles_collected)
+				end_game(true)
+			else:
+				end_game()
+			# Check if snake ate its own tail
+			#if snake_data[i] == snake_data[-1]:
+				#var cycles_collected = get_encapsulation_size()
+				#cycle_bank += cycles_collected
+				#print(cycles_collected)
 	 
 func check_food_eaten():
 	# If snake eats the food, add a segment and move the food
 	if snake_data[0] == food_pos:
-		score += 1
+		$Audio/EatSFX.play()
+		food_eaten += 1
+		score += 3 + floori(cycles_per_second * (0.25 * map_level / 3))
 		# Inscrease the speed of the snake
-		$GameScene/MoveTimer.wait_time = 0.2 - (score * 0.005)
-		# Every 5 food increase the play area
-		if score % 3 == 0 and cells_per_column < 20:
-			cells_per_column += 1
-			cells_per_row += 1
-			create_map()
-		# Update HUD
+		$GameScene/MoveTimer.wait_time = 0.2 - (food_eaten * 0.005)
 		add_segment(old_data[-1])
 		move_food()
 	
@@ -212,8 +226,10 @@ func move_food():
 	$GameScene/Food.position = calculate_position((food_pos * cell_size))
 	regen_food = true
 	
-func end_game():
+func end_game(ouroboros_bonus = false):
 	# Show Game Over menu
+	$Audio/GameOverSFX.play()
+	calculate_cycle_score(ouroboros_bonus)
 	$Map.is_game_over = true
 	$GameScene/MoveTimer.stop()
 	game_started = false
@@ -236,18 +252,41 @@ func purchae_cycle_type(type_button : CycleTypeButton):
 		cycle_bank -= price
 		var cycle_type = type_button.type
 		cycle_types_owned[cycle_type] += 1
-		type_button.type_owned = cycle_types_owned[cycle_type]
-		# Update Price
-		type_button.type_price = ceili(type_button.type_price * 1.15)
-		calculate_cps()
-		print("Bought Cycle")
+		total_cycle_types_owned += 1
+		if cycle_type != 4:
+			$Audio/PurchaseSFX.play()
+			type_button.type_owned = cycle_types_owned[cycle_type]
+			# Update Price
+			type_button.type_price = ceili(type_button.type_price * 1.15)
+			calculate_cps()
+			#print("Bought Cycle")
+		else:
+			# They bought the black hole... end it all
+			$BlackHoleLayer/Anim.play("activate")
 	else:
-		print("Not enough loops")
+		#print("Not enough loops")
+		$Audio/InvalidSFX.play()
 	
 func calculate_cps():
 	cycles_per_second = 0
 	for i in range(4):
 		cycles_per_second += CYCLE_GENERATED[i] * cycle_types_owned[i]
+	
+func calculate_cycle_score(created_ourobors = false):
+	var bonus = 1
+	if total_cycle_types_owned >= 3:
+		bonus += 0.5 * (total_cycle_types_owned/3)
+		score *= bonus
+		print(str("Bonus: ", bonus))
+	if created_ourobors:
+		var ouroboros_bonus = 2 * ouroboros_chain
+		print(str("Ouro Bonus: ", ouroboros_bonus))
+		score *= ouroboros_chain
+		cycle_bank += floori(score)
+	else:
+		cycle_bank += score
+	print(str("Gained ", score, " Cycles"))
+	score = 0
 	
 func _on_map_restart_game() -> void:
 	new_game()
